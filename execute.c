@@ -2,7 +2,7 @@
 
 /**
  * execute_command - Executes a command using execve
- * @command: Command to execute (full path)
+ * @command: Command entered by the user
  */
 void execute_command(char *command)
 {
@@ -12,7 +12,5 @@ void execute_command(char *command)
 	argv[1] = NULL;
 
 	if (execve(command, argv, environ) == -1)
-	{
 		perror("./shell");
-	}
 }

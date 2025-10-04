@@ -4,10 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <string.h>
+#include <sys/types.h>
 #include <sys/wait.h>
+#include <string.h>
 
-int _strcmp(char *s1, char *s2);
+extern char **environ;
+
+void simple_shell(void);
 void execute_command(char *command);
 
-#endif
+#endif /* SHELL_H */

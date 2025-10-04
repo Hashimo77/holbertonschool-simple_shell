@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * simple_shell - Displays prompt and executes user commands
+ * simple_shell - Displays a prompt and executes user commands
  */
 void simple_shell(void)
 {
@@ -13,24 +13,25 @@ void simple_shell(void)
 
 	while (1)
 	{
-		/* Check if interactive mode */
+		/* Show prompt only in interactive mode */
 		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "($) ", 4);
+			write(STDOUT_FILENO, "#cisfun$ ", 9);
 
 		read = getline(&line, &len, stdin);
-		if (read == -1) /* EOF (Ctrl + D) */
+		if (read == -1)
 		{
-			free(line);
+			/* Handle Ctrl+D (EOF) */
 			if (isatty(STDIN_FILENO))
 				write(STDOUT_FILENO, "\n", 1);
+			free(line);
 			break;
 		}
 
-		/* Remove newline character */
+		/* Remove newline at end of input */
 		if (line[read - 1] == '\n')
 			line[read - 1] = '\0';
 
-		/* If user entered nothing, continue */
+		/* Ignore empty lines */
 		if (line[0] == '\0')
 			continue;
 
@@ -44,6 +45,7 @@ void simple_shell(void)
 
 		if (pid == 0)
 		{
+			/* Child process executes command */
 			execute_command(line);
 			perror("./shell");
 			exit(EXIT_FAILURE);
@@ -53,5 +55,4 @@ void simple_shell(void)
 			wait(&status);
 		}
 	}
-	free(line);
 }
