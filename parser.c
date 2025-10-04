@@ -1,10 +1,8 @@
 #include "shell.h"
 
-#define MAX_ARGS 64
-
 /**
- * parse_command - Split a line into arguments
- * @line: Input command line
+ * parse_command - split line into arguments
+ * @line: input string
  *
  * Return: NULL-terminated array of arguments (static)
  */
@@ -12,8 +10,7 @@ char **parse_command(char *line)
 {
 	static char *argv[MAX_ARGS];
 	char *token;
-	int argc = 0;
-	int i;
+	int i, argc = 0;
 
 	for (i = 0; i < MAX_ARGS; i++)
 		argv[i] = NULL;

@@ -1,21 +1,21 @@
 #include "shell.h"
 
 /**
- * simple_shell - Displays prompt, reads input and executes commands
+ * simple_shell - main loop of shell
  */
 void simple_shell(void)
 {
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t read;
+	char **argv;
 	pid_t pid;
 	int status;
-	char **argv;
 
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "#cisfun$ ", 9);
+			write(STDOUT_FILENO, ":) ", 3);
 
 		read = getline(&line, &len, stdin);
 		if (read == -1)
@@ -36,6 +36,12 @@ void simple_shell(void)
 		if (argv[0] == NULL)
 			continue;
 
+		if (find_command(argv[0]) == NULL)
+		{
+			perror(argv[0]);
+			continue;
+		}
+
 		pid = fork();
 		if (pid == -1)
 		{
@@ -51,9 +57,8 @@ void simple_shell(void)
 			exit(EXIT_FAILURE);
 		}
 		else
-		{
 			waitpid(pid, &status, 0);
-		}
 	}
+
 	free(line);
 }

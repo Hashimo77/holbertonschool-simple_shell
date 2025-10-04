@@ -1,11 +1,10 @@
 #include "shell.h"
 
 /**
- * execute_command - Executes a command using execve
- * @argv: Array of command and arguments
+ * execute_command - execute the command
+ * @argv: argument vector
  */
 void execute_command(char **argv)
 {
-	if (execve(argv[0], argv, environ) == -1)
-		perror("./shell");
+	execve(find_command(argv[0]), argv, environ);
 }
