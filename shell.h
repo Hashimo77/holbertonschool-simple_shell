@@ -11,7 +11,7 @@
 extern char **environ;
 
 void simple_shell(void);
-void execute_command(char *command);
+void execute_command(char **argv);  /* burada char ** olmalıdır */
 char **parse_command(char *line);
 
 #endif /* SHELL_H */
