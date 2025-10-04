@@ -6,7 +6,7 @@
  * parse_command - Split a line into arguments
  * @line: Input command line
  *
- * Return: NULL-terminated array of arguments (static limit)
+ * Return: NULL-terminated array of arguments (static)
  */
 char **parse_command(char *line)
 {
@@ -19,7 +19,7 @@ char **parse_command(char *line)
 		argv[i] = NULL;
 
 	token = strtok(line, " \t");
-	while (token && argc < MAX_ARGS - 1)
+	while (token != NULL && argc < MAX_ARGS - 1)
 	{
 		argv[argc] = token;
 		argc++;

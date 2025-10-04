@@ -34,16 +34,12 @@ void simple_shell(void)
 
 		argv = parse_command(line);
 		if (argv[0] == NULL)
-		{
-			free(argv);
 			continue;
-		}
 
 		pid = fork();
 		if (pid == -1)
 		{
 			perror("fork");
-			free(argv);
 			free(line);
 			exit(EXIT_FAILURE);
 		}
@@ -58,7 +54,6 @@ void simple_shell(void)
 		{
 			waitpid(pid, &status, 0);
 		}
-		free(argv);
 	}
 	free(line);
 }
