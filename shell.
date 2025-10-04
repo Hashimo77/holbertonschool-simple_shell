@@ -1,0 +1,35 @@
+#include "shell.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+/**
+ * hsh_loop - main loop of the shell
+ * Return: 0 on success, -1 on error
+ */
+int hsh_loop(void)
+{
+    char *line = NULL;
+    char **args;
+    ssize_t read;
+
+    while (1)
+    {
+        if (isatty(0))
+            printf("($) ");
+        read = _getline(&line, NULL, stdin);
+        if (read == -1)
+        {
+            free(line);
+            if (isatty(0))
+                putchar('\n');
+            return (0);
+        }
+        args = hsh_split_line(line);
+        if (args[0] != NULL)
+            hsh_execute(args);
+        free_tokens(args);
+        free(line);
+        line = NULL;
+    }
+    return (0);
+}
