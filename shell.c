@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * simple_shell - Displays prompt and executes user commands
+ * simple_shell - Displays prompt, reads input and executes commands
  */
 void simple_shell(void)
 {
@@ -10,6 +10,7 @@ void simple_shell(void)
 	ssize_t read;
 	pid_t pid;
 	int status;
+	char **argv;
 
 	while (1)
 	{
@@ -31,17 +32,25 @@ void simple_shell(void)
 		if (line[0] == '\0')
 			continue;
 
+		argv = parse_command(line);
+		if (argv[0] == NULL)
+		{
+			free(argv);
+			continue;
+		}
+
 		pid = fork();
 		if (pid == -1)
 		{
 			perror("fork");
+			free(argv);
 			free(line);
 			exit(EXIT_FAILURE);
 		}
 
 		if (pid == 0)
 		{
-			execute_command(line);
+			execute_command(argv);
 			perror("./shell");
 			exit(EXIT_FAILURE);
 		}
@@ -49,6 +58,7 @@ void simple_shell(void)
 		{
 			waitpid(pid, &status, 0);
 		}
+		free(argv);
 	}
 	free(line);
 }

@@ -2,15 +2,10 @@
 
 /**
  * execute_command - Executes a command using execve
- * @command: Command entered by the user
+ * @argv: Array of command and arguments
  */
-void execute_command(char *command)
+void execute_command(char **argv)
 {
-	char *argv[2];
-
-	argv[0] = command;
-	argv[1] = NULL;
-
-	if (execve(command, argv, environ) == -1)
+	if (execve(argv[0], argv, environ) == -1)
 		perror("./shell");
 }
