@@ -1,31 +1,30 @@
 #include "shell.h"
 
+#define MAX_ARGS 64
+
 /**
  * parse_command - Split a line into arguments
  * @line: Input command line
  *
- * Return: NULL-terminated array of arguments
+ * Return: NULL-terminated array of arguments (static limit)
  */
 char **parse_command(char *line)
 {
-	char **argv = NULL;
+	static char *argv[MAX_ARGS];
 	char *token;
 	int argc = 0;
 
+	for (int i = 0; i < MAX_ARGS; i++)
+		argv[i] = NULL;
+
 	token = strtok(line, " \t");
-	while (token)
+	while (token && argc < MAX_ARGS - 1)
 	{
-		argv = realloc(argv, sizeof(char *) * (argc + 2));
-		if (!argv)
-		{
-			perror("realloc");
-			exit(EXIT_FAILURE);
-		}
 		argv[argc] = token;
 		argc++;
 		token = strtok(NULL, " \t");
 	}
-	if (argv)
-		argv[argc] = NULL;
+
+	argv[argc] = NULL;
 	return (argv);
 }
