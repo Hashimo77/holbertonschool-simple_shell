@@ -13,8 +13,9 @@ char **parse_command(char *line)
 	static char *argv[MAX_ARGS];
 	char *token;
 	int argc = 0;
+	int i;
 
-	for (int i = 0; i < MAX_ARGS; i++)
+	for (i = 0; i < MAX_ARGS; i++)
 		argv[i] = NULL;
 
 	token = strtok(line, " \t");
